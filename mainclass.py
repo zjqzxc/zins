@@ -393,15 +393,3 @@ class Zins:
         else:
             return self.CheckError(rs)
         
-    
-#a=Zins()
-#print(a.login6('1009111230', 'inter80x86'))
-#print(a.sendHeartbeatPacket6(1))
-#print(a.keepOnlineIPv6())
-#print(a.force_logout6('1009111230', 'inter80x86'))
-#print(a.force_login('1009111230','inter80x86'))
-#a.keepOnline()
-#print(a.getKeeplive6())
-
-#print(a.login('1009131228','708295'))
-#print(a.do_logout)
