@@ -233,14 +233,14 @@ def updatestatus():
         alert('此IP已登录','此IP已被：'+ipv4status['user']+'登录，若非自己请先单击注销')
         print('此IP已被 ：'+ipv4status['user']+'登录')
     else:
-        rst1=a.keepOnlineIPv4()
+        rst1=a.checkOnline('ipv4')
         if rst1=='e':
             l21['text']='IPv4:未启用'
         elif rst1=='off':
             l21['text']='IPv4:已离线'
         else:
             l21['text']='IPv4:无需认证'
-    rst2=a.keepOnlineIPv6()
+    rst2=a.checkOnline('ipv6')
     if rst2==0:
         l22['text']='IPv6:已登录'
     elif rst2=='off':

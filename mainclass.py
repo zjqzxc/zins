@@ -6,8 +6,35 @@ import struct, traceback,binascii,socket,configparser
 
 class Zins:
     def __init__( self ):#设置常用变量
-        if os.path.exists('config1.ini'):
+        if os.path.exists('config.ini'):
             print('use config.ini settings')
+            configstr = open('config.ini','r')
+            while True:
+                line=configstr.readline()
+                if not line:
+                    break
+                if line[0]== '#':   #跳过注释内容
+                    continue
+                if line == '\n':    #跳过空行
+                    continue
+                if line.find('IPv4server')>-1:
+                    self.host=line.split('=')[1].strip()
+                if line.find('IPv6server')>-1:
+                    self.host6=line.split('=')[1].strip()
+                if line.find('port')>-1:
+                    self.port=line.split('=')[1].strip()
+                if line.find('keepliveport')>-1:
+                    self.keepliveport=line.split('=')[1].strip()
+                if line.find('loginurl')>-1:
+                    self.loginurl=line.split('=')[1].strip()
+                if line.find('keepliverurl')>-1:
+                    self.keepliveurl=line.split('=')[1].strip()
+                if line.find('dologout')>-1:
+                    self.dologout=line.split('=')[1].strip()
+                if line.find('forcelogout')>-1:
+                    self.forcelogout=line.split('=')[1].strip()
+            #print(self.host,self.host6,self.port,self.keepliveport,self.loginurl,self.keepliveurl,self.dologout,self.forcelogout)
+            
         else :
             print('config.ini not found!Try to use default settings.')
             self.host='202.204.105.195'
@@ -393,3 +420,5 @@ class Zins:
         else:
             return self.CheckError(rs)
         
+        
+a=Zins()
