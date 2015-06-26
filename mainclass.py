@@ -21,7 +21,7 @@ class Zins:
                     self.host=line.split('=')[1].strip()
                 if line.find('IPv6server')>-1:
                     self.host6=line.split('=')[1].strip()
-                if line.find('port')>-1:
+                if line.find('cgiport')>-1:
                     self.port=line.split('=')[1].strip()
                 if line.find('keepliveport')>-1:
                     self.keepliveport=line.split('=')[1].strip()
@@ -33,6 +33,8 @@ class Zins:
                     self.dologout=line.split('=')[1].strip()
                 if line.find('forcelogout')>-1:
                     self.forcelogout=line.split('=')[1].strip()
+            self.server=self.host+':'+self.port
+            self.server6=self.host6
             #print(self.host,self.host6,self.port,self.keepliveport,self.loginurl,self.keepliveurl,self.dologout,self.forcelogout)
             
         else :
@@ -421,4 +423,4 @@ class Zins:
             return self.CheckError(rs)
         
         
-a=Zins()
+#a=Zins()

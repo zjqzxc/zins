@@ -2,23 +2,25 @@
 from mainclass import *
 import sys,getopt
 from configparser import NoSectionError
+from _csv import Error
 
 a=Zins()
-b=userData()
+#b=userData()
 #print(len(sys.argv))
 #print(sys.argv)
 
 def Usage():
-    print("Welcom to use ZINS! You can use this to login if your system is srun.")
+    print("Welcom to use ZINS! You can use it to login if your system is srun.")
     print("")
-    print("Usage: zins.py [-u username] [-p password] [options]")
+    print("Usage: zins.exe [-u username] [-p password] [options]")
+    print("OR:python zins.py [-u username] [-p password] [options]")
     print("")
     print("Options are:")
     print("-u,--username:  the username you want to use")
     print("-p,--password:  the password of the username")
     print("-h,--help:      print this message")
     print("-v,--version:   print the version")
-    print("-r:             remember the password.If you use this option once ,you can only user '-u username' to login next.")
+    print("-r:             remember the password.If you use this option at once ,you can only use '-u username' to login next time.")
     print("--logout")
     print("--logoutuser")
     print("--logoutip")
@@ -28,17 +30,17 @@ def Version():
     print("ZINS v0.9 Preview for Developers Commandline Only. Suit but not only suit for CUGB")
 
 def login(user,password=0):
-    print('login!')
-    print(user)
+    #print('login!')
+    #print(user)
     if password=='0':
         try:
-            password=b.show(user, 'password')
+            password=a.show(user, 'password')
         except configparser.NoSectionError:
-            print('UserData not found!')
-            exit(4)
+            print('UserData not found!，Please use username and password login')
+            sys.exit(4)
         if password=='0':
             print('This user not allow to remember the password!')
-            exit(4)
+            sys.exit(4)
         else:
             print(user)
             print(password)
@@ -60,9 +62,14 @@ def logoutuser(user,password):
 try:
     options,args=getopt.getopt(sys.argv[1:],"hvu:p:r", ["help","username=","password=","logout","logoutip","logoutuser","version"])
     if not options :
-        user=b.show('system','last')
         try:
-            password=b.show(user,'password') 
+            user=a.show('system','last')
+        except configparser.NoSectionError:
+            print('Please try to login with username and password')
+            Usage()
+            sys.exit()
+        try:
+            password=a.show(user,'password') 
         except NoSectionError:
             print('Please try to login with username and password')
             Usage()
@@ -100,7 +107,7 @@ for name,value in options:
         function = 'logoutuser'
     if name in ("-r"):
         if username and password:
-            b.update(username, 'password', password)
+            a.update(username, 'password', password)
             print('r')
         else :
             print('Missing username or password,"-r" will be ignore')

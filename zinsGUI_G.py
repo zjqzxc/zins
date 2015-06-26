@@ -12,7 +12,7 @@ event=threading.Event()
 
 __author__ = {'name' : 'Flagplus',
               'Email' : 'zjqzxc@flagplus.net',
-              'Created' : '2015-03-09'}
+              'Created' : '2015-06-25'}
 def Version():
     filewin = Toplevel()
     tmpcnf = '%dx%d'%(350, 150)
@@ -20,10 +20,10 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（女生版）测试版\n\
-    V 1.0.1 Beta\n\
+    V 1.0.2 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
-编译日期2015-03-09\
+编译日期2015-06-25\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='我会记得更新的',command=filewin.destroy)
@@ -38,7 +38,6 @@ Zins登陆器（女生版）简易使用帮助\n\
 输入用户名和密码，然后“登陆”就可以了。\n\
 什么“在线人数已达上限”“IP已存在”，都交给Zins就可以啦~\n\
 使用前请保证打开任意网页可以跳转到网关登陆页面^_^\n\
-编译日期2015-03-09\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='本宫知道了',command=filewin.destroy)

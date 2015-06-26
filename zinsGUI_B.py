@@ -13,7 +13,7 @@ def print(str):
 
 __author__ = {'name' : 'Flagplus',
               'Email' : 'zjqzxc@flagplus.net',
-              'Created' : '2015-03-09'}
+              'Created' : '2015-06-25'}
 def donothing():
     filewin = Toplevel()
     button = Button(filewin, text="Do nothing button")
@@ -31,7 +31,7 @@ Zins登陆器（男生版）测试版\n\
 详情课参阅更新日志:)\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
 当然，您也可以邮件告诉我您还想要什么样的功能:)\n\
-编译日期2015-03-09\
+编译日期2015-06-25\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='作者太啰嗦了',command=filewin.destroy)
@@ -47,7 +47,6 @@ Zins登陆器（男生版）简易使用帮助\n\
 什么“在线人数已达上限”“IP已存在”，都交给Zins就可以啦~\n\
 使用前请保证打开任意网页可以跳转到网关登陆页面^_^\n\
 如有需求，可以使用不同的注销按钮，详情前参阅网站说明\n\
-编译日期2015-03-09\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='好的',command=filewin.destroy)
@@ -111,7 +110,7 @@ def ConnectInfo():
                         title2='其他实时信息：\n'
                         timeshow='登陆时间：'+str(arr['time'])+'秒\n'
                         avaliabe='可用流量：'+str(arr['avaliable'])+'(0为不限制)\n'
-                        used='已用流量：'+str(int(arr['used'])/1000000)+'MB/s （非实时更新）\n'
+                        used='已用流量：'+str(int(arr['used'])/1000000)+'MB （非实时更新）\n'
                         usershow='当前登陆：'+str(arr['user'])+'\n'
                         conninfo['text']=title1+txs+rxs+timeshow+avaliabe+used+usershow
                     except:
@@ -230,7 +229,7 @@ def updatestatus():
             alert('IPv4超时', 'IPv4检测超时，可能是由于您不在校园内网或服务器错误\n请检查您的网络环境或尝试登陆')
             return 4
         l21['text']='IPv4:已登录'
-        alert('此IP已登录','此IP已被：'+ipv4status['user']+'登录，若非自己请先单击注销')
+        alert('此IP已登录','此IP已被：'+ipv4status['user']+'登录，若非自己请先单击IP注销')
         print('此IP已被 ：'+ipv4status['user']+'登录')
     else:
         rst1=a.checkOnline('ipv4')
