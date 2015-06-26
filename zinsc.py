@@ -2,10 +2,8 @@
 from mainclass import *
 import sys,getopt
 from configparser import NoSectionError
-from _csv import Error
 
 a=Zins()
-#b=userData()
 #print(len(sys.argv))
 #print(sys.argv)
 
@@ -21,17 +19,18 @@ def Usage():
     print("-h,--help:      print this message")
     print("-v,--version:   print the version")
     print("-r:             remember the password.If you use this option at once ,you can only use '-u username' to login next time.")
-    print("--logout")
-    print("--logoutuser")
-    print("--logoutip")
-    print("--info")
+    print("-4:             IPv4 Only。")
+    print("-6:             IPv6 Only.")
+    print("                If either -4 or -6 exist ,we will login/logout with both of them.")
+    print("--logoutuid     logout with uid if uid exist")
+    print("--logoutuser    logout with username and password,username and password is needed")
+    print("--logoutip      logout with ip")
+    print("--info          show information")
     
 def Version():
-    print("ZINS v0.9 Preview for Developers Commandline Only. Suit but not only suit for CUGB")
+    print("ZINS v0.91 Alpha Preview for Developers Commandline Only. Suit but not only suit for CUGB")
 
-def login(user,password=0):
-    #print('login!')
-    #print(user)
+def login(user, password=0, type='ipv4'):
     if password=='0':
         try:
             password=a.show(user, 'password')
@@ -47,20 +46,45 @@ def login(user,password=0):
     else:
         print(user)
         print(password)
-    a.login(str(user), str(password))
-def logout():
-    print('logout')
-    rst=a.uid_logout()
     
-def logoutip():
-    a.do_logout()
+    if type=='ipv6':
+        a.login6(str(user), str(password))
+    else:
+        a.login(str(user), str(password))
     
-def logoutuser(user,password):
-    a.force_logout(user, password)
+    
+def logout(type4,type6):
+    print('logout by uid')
+    if type4:
+        a.uid_logout(0, 'ipv4')
+    if type6:
+        a.uid_logout(0, 'ipv6')
+    if not type4 and not type6:
+        a.uid_logout(0, 'ipv4')
+        
+def logoutip(type4,type6):
+    print('logout by ip')
+    if type4:
+        a.do_logout('ipv4')
+    if type6:
+        a.do_logout('ipv6')
+    if not type4 and not type6:
+        a.do_logout('ipv4')
+        a.do_logout('ipv6')
+    
+def logoutuser(user, password, type4, type6):
+    print('logout by username')
+    if type4:
+        a.force_logout(user, password, 'ipv4')
+    if type6:
+        a.force_logout(username, password, 'ipv6')
+    if not type4 and not type6:
+        a.force_logout(user, password, 'ipv4')
+        a.force_logout(username, password, 'ipv6')
 
 
 try:
-    options,args=getopt.getopt(sys.argv[1:],"hvu:p:r", ["help","username=","password=","logout","logoutip","logoutuser","version"])
+    options,args=getopt.getopt(sys.argv[1:],"hvu:p:r46", ["help","username=","password=","logoutuid","logoutip","logoutuser","version"])
     if not options :
         try:
             user=a.show('system','last')
@@ -85,6 +109,8 @@ try:
 except getopt.GetoptError:
     Usage()
  
+type4=0
+type6=0
 function = ''
 username = ''
 password = '0'
@@ -99,10 +125,14 @@ for name,value in options:
         username=value
     if name in ("-p","--password"):
         password=value
-    if name in ("--logout"):
-        logout();
+    if name in ("-4"):
+        type4=1
+    if name in ("-6"):
+        type6=1
+    if name in ("--logoutuid"):
+        function = 'logoutuid'
     if name in ("--logoutip"):
-        logoutip()
+        function = 'logoutip'
     if name in ("--logoutuser"):
         function = 'logoutuser'
     if name in ("-r"):
@@ -112,15 +142,25 @@ for name,value in options:
         else :
             print('Missing username or password,"-r" will be ignore')
 
-if function == 'logoutip':
-    print('logoutip')
+if function == 'logoutuid':
+    logout(type4,type6)
+    sys.exit(3)
+elif function == 'logoutip':
+    logoutip(type4,type6)
 elif function == 'logoutuser':
     if username and password:
         print('logoutuser')
         logoutuser(username, password)
         sys.exit(3)
     else:
-        print('Missing Parameters! Please use "--logoutuser" wieht "--username" and "--password"')
+        print('Missing Parameters! Please use "--logoutuser" with "--username" and "--password"')
         sys.exit(3)
-    
-login(username,password)
+        
+if type4:
+    login(username,password,'ipv4')
+if type6:
+    login(username,password,'ipv6')
+if not type4 and not type6:
+    print('Try login IPv4 and IPv6 .If you only want to login one of them ,please use "-4" or "-6" ')
+    login(username,password,'ipv4')
+    login(username,password,'ipv6')
