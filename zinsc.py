@@ -77,10 +77,10 @@ def logoutuser(user, password, type4, type6):
     if type4:
         a.force_logout(user, password, 'ipv4')
     if type6:
-        a.force_logout(username, password, 'ipv6')
+        a.force_logout(user, password, 'ipv6')
     if not type4 and not type6:
         a.force_logout(user, password, 'ipv4')
-        a.force_logout(username, password, 'ipv6')
+        a.force_logout(user, password, 'ipv6')
 
 
 try:
@@ -150,7 +150,7 @@ elif function == 'logoutip':
 elif function == 'logoutuser':
     if username and password:
         print('logoutuser')
-        logoutuser(username, password)
+        logoutuser(username, password,type4,type6)
         sys.exit(3)
     else:
         print('Missing Parameters! Please use "--logoutuser" with "--username" and "--password"')

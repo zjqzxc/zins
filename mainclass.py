@@ -106,7 +106,11 @@ class Zins:
     }
         #print(self.type)
         timeoffset=int(pwdstr.split("@")[1])-int(time.time())
-        self.userdata.update('system','timeoffset',str(timeoffset))
+        if protocol=='ipv6':
+            self.userdata.update('system','timeoffset6',str(timeoffset))
+        else:
+            self.userdata.update('system','timeoffset',str(timeoffset))
+        
         return self.post(serverUrl, data)
     
     def trylogin(self, username, password, protocol = 'ipv4'):#使用系统时间作为时间戳加密密码并尝试登陆

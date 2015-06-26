@@ -105,22 +105,4 @@ class userData:
         self.userconfig.write(open(self.filename,"w"))
     def show(self,section,key):
         return self.userconfig.get(section,key)        
-        
-
-
-#b=userData()
-#b.checkOption('1009111228','a')
-#print(b.show('1009111230', 'uid'))
-#b.checkfile()
-#b.checksys()
-#user='1009111230'
-#b.checkuser(user)
-#try:
-#    userconfig.options(user)
-#except configparser.NoSectionError :
-#    add_user_section(filename,user)
     
-    
-
-
-

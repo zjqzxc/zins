@@ -296,7 +296,7 @@ def keepOnlineIPv4():
                 a.sendHeartbeatPacket(uid)
             if(t==600):
                 print('keepOnlineIPv4')
-                rst1=a.keepOnlineIPv4()
+                rst1=a.checkOnline('ipv4')
                 t=0
         else:
             print('exit!')
@@ -309,7 +309,7 @@ def keepOnlineIPv6():
             t+=1
             if(t>=60):
                 print('keepOnlineIPv6')
-                rst2=a.keepOnlineIPv6()
+                rst2=a.checkOnline('ipv6')
                 t=0
         else:
             print('exit!')
@@ -332,23 +332,34 @@ def login():
     if not(CheckVar3.get() or CheckVar4.get()):
         alert('缺失必要参数','IPv4,IPv6中至少一项应被选中')
         return 1
-    rst=str(a.login(username, password))
-    if re.match(r"\d{3}",rst[:3]):
-        print('登陆成功')
-    else :
-        print('登录失败')
-        alert('登陆失败',rst)
-        if rst=='您的IP尚未下线，请强制该IP下线':
-            a.do_logout()
-            print('等待注销')
-            time.sleep(5)
-            login()
-        if rst=='该帐号的登录人数已超过限额':
-            a.force_logout(username, password)
-            print('等待状态同步后重试')
-            time.sleep(10)
-            login()
-        return 3
+    if CheckVar3.get():
+        rst=str(a.login(username, password))
+        if re.match(r"\d{3}",rst[:3]):
+            print('登陆成功')
+            l21['text']='IPv4:已登录'
+        else :
+            print('登录失败')
+            if rst=='您的IP尚未下线，请强制该IP下线':
+                a.do_logout()
+                print('等待注销')
+                time.sleep(5)
+                login()
+            if rst=='该帐号的登录人数已超过限额':
+                a.force_logout(username, password)
+                print('等待状态同步后重试')
+                time.sleep(10)
+                login()
+            return 3
+    if CheckVar4.get():
+        rst=str(a.login6(username, password))
+        if re.match(r"\d{3}",rst[:3]):
+            print('登陆成功')
+            l22['text']='IPv6:已登录'
+        elif rst==0:
+            print('IPv6备用模式')
+            l22['text']='IPv6:已登录'
+        else:
+            print(rst)
 
     if CheckVar1.get()==1:
         a.update(username, 'password', password)
@@ -388,13 +399,13 @@ def logout():
     event.clear()
     btn1['state']=NORMAL
     l4['text']='logout'
-    a.uid_logout()
-    a.uid_logout6()
+    a.uid_logout('ipv4')
+    a.uid_logout('ipv6')
     
     l21['text']='IPv4:已注销'
 def logoutip():
-    a.do_logout()
-    a.do_logout6()
+    a.do_logout('ipv4')
+    a.do_logout('ipv6')
     event.clear()
     btn1['state']=NORMAL
     l4['text']='logout'
@@ -412,7 +423,7 @@ def logoutuser():
     btn1['state']=NORMAL
     l4['text']='logout user'
     a.force_logout(username, password)
-    a.force_logout6(username, password)
+    a.force_logout(username, password,'ipv6')
     l21['text']='IPv4:已注销'
 
 root = Tk()

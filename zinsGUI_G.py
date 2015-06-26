@@ -338,14 +338,21 @@ def logout():#注销操作
         return 1
     password=pwd.get()
     if len(password)<1:
-        alert('缺少密码','请输入密码')
-        return 1
+        event.clear()
+        btn1['state']=NORMAL
+        l4['text']='logoutIP'
+        print(a.do_logout("ipv4"))
+        print(a.do_logout("ipv6"))
+        l21['text']='IPv4:已注销'
+        l22['text']='IPv6:已注销'
+        return 0
     event.clear()
     btn1['state']=NORMAL
     l4['text']='logout'
-    a.do_logout()
-    a.force_logout6(username, password)
+    a.force_logout(username, password, "ipv4")
+    a.force_logout(username, password, "ipv6")
     l21['text']='IPv4:已注销'
+    l22['text']='IPv6:已注销'
     
 
 #界面布局
