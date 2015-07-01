@@ -26,7 +26,7 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（男生版）测试版\n\
-    V 1.11 Alpha\n\
+    V 1.12 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 另：男生版讲在后续版本中提供更多稀奇古怪的功能，\n\
 详情课参阅更新日志:)\n\
@@ -89,6 +89,28 @@ def userselect(n):
         val2.set(passwd)
     else :
         val2.set('')
+
+def deluser():
+    section=user.get()
+    def dels():
+        a.deluser(section)
+        filewin.destroy()
+        val1.set('')
+        val2.set('')
+        userlist=a.listuser()
+        user=ttk.Combobox(root, textvariable=val1, values=userlist, width=18)
+        user.bind("<<ComboboxSelected>>", userselect)
+        user.grid(row=2,column=2,columnspan=3)
+    filewin = Toplevel()
+    tmpcnf = '%dx%d'%(350,100)
+    filewin.geometry(tmpcnf)
+    filewin.title('删除确认')
+    txt='确定要删除用户 '+section+' 的登陆信息吗？'
+    Label(filewin,text=txt).pack()
+    button1 = Button(filewin, text='确认',command=dels)
+    button1.pack(side=LEFT,fill='x',anchor='w',padx=20,expand=1)
+    button2 = Button(filewin, text='关闭',command=filewin.destroy)
+    button2.pack(side=RIGHT,fill='x',anchor='e',expand=1)
     
 def ConnectInfo():
     filewin = Toplevel()
@@ -460,12 +482,15 @@ Label(root,text='用户名:').grid(row=2,column=0,columnspan=2)
 userlist=a.listuser()
 user = ttk.Combobox(root, textvariable=val1, values=userlist, width=18)
 user.bind("<<ComboboxSelected>>", userselect)
-user.grid(row=2,column=2,columnspan=4)
+user.grid(row=2,column=2,columnspan=3)
+
+btn_del=Button(root,text='—',command=deluser,bitmap="error",relief=GROOVE)
+btn_del.grid(row=2,column=4)
 
 Label(root,text='密    码:').grid(row=3,column=0,columnspan=2)
 pwd=Entry(root,textvariable=val2)
 pwd['show']='*'
-pwd.grid(row=3,column=2,columnspan=4)
+pwd.grid(row=3,column=2,columnspan=3)
 
 Canvas(root,width=350,height=10).grid(row=4,columnspan=6,sticky=W)
 

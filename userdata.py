@@ -97,16 +97,25 @@ class userData:
     def checkOption(self,section,key):
         try:
             self.userconfig.get(section,key)
-        except configparser.NoOptionError:
+        except  configparser.NoOptionError:
             self.userconfig.set(section,key,'0')
             self.userconfig.write(open(self.filename,"w"))
         
     def update(self,section,key,value):
         self.userconfig.set(section,key,value)
         self.userconfig.write(open(self.filename,"w"))
+        
     def show(self,section,key):
         return self.userconfig.get(section,key)        
     
     def listUser(self):
         return self.userconfig.sections()[1:]
     
+    def delUser(self,section):
+        self.userconfig.remove_section(section)
+        self.userconfig.write(open(self.filename,"w"))
+        try :
+            self.userconfig.options(section)
+        except configparser.NoSectionError:   
+            return 0
+        return 1

@@ -21,7 +21,7 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（女生版）测试版\n\
-    V 1.11 Alpha\n\
+    V 1.12 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
 编译日期2015-07-01\
@@ -71,7 +71,14 @@ def alert(txt1,txt2):#弹窗函数，第一个参数为窗体名称，第二个�
     button.pack(side=BOTTOM)
 
 def useredit():
-    print('暂未启用')
+    filewin = Toplevel()
+    tmpcnf = '%dx%d'%(350, 300)
+    filewin.geometry(tmpcnf)
+    filewin.title('用户记录')
+    txt='功能未完成'
+    Label(filewin,text=txt).pack()
+    button = Button(filewin, text='关闭',command=filewin.destroy)
+    button.pack(side=BOTTOM)
     
 def userselect(n):
     userselected=user.get()
@@ -79,7 +86,29 @@ def userselect(n):
     if passwd != '0':
         val2.set(passwd)
     else :
-        val2.set('')  
+        val2.set('')
+
+def deluser():
+    section=user.get()
+    def dels():
+        a.deluser(section)
+        filewin.destroy()
+        val1.set('')
+        val2.set('')
+        userlist=a.listuser()
+        user=ttk.Combobox(root, textvariable=val1, values=userlist, width=18)
+        user.bind("<<ComboboxSelected>>", userselect)
+        user.grid(row=2,column=2,columnspan=3)
+    filewin = Toplevel()
+    tmpcnf = '%dx%d'%(350,100)
+    filewin.geometry(tmpcnf)
+    filewin.title('删除确认')
+    txt='确定要删除用户 '+section+' 的登陆信息吗？'
+    Label(filewin,text=txt).pack()
+    button1 = Button(filewin, text='确认',command=dels)
+    button1.pack(side=LEFT,fill='x',anchor='w',padx=20,expand=1)
+    button2 = Button(filewin, text='关闭',command=filewin.destroy)
+    button2.pack(side=RIGHT,fill='x',anchor='e',expand=1)
 
 def reset():#注销并重置所有设置及输入
     logout()
@@ -391,12 +420,15 @@ Label(root,text='用户名:').grid(row=2,column=0,columnspan=2)
 userlist=a.listuser()
 user = ttk.Combobox(root, textvariable=val1, values=userlist, width=18)
 user.bind("<<ComboboxSelected>>", userselect)
-user.grid(row=2,column=2,columnspan=4)
+user.grid(row=2,column=2,columnspan=3)
+
+btn_del=Button(root,text='—',command=deluser,bitmap="error",relief=GROOVE)
+btn_del.grid(row=2,column=4)
 
 Label(root,text='密    码:').grid(row=3,column=0,columnspan=2)
 pwd=Entry(root,textvariable=val2)
 pwd['show']='*'
-pwd.grid(row=3,column=2,columnspan=4)
+pwd.grid(row=3,column=2,columnspan=3)
 
 Canvas(root,width=350,height=10).grid(row=4,columnspan=6,sticky=W)
 

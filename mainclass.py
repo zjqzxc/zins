@@ -59,6 +59,8 @@ class Zins:
         return self.userdata.checkfile()
     def listuser(self):
         return self.userdata.listUser()
+    def deluser(self,section):
+        return self.userdata.delUser(section)
 
     def usage(self):#还没来及认真写，其实也没啥用
         print('About Zins')
