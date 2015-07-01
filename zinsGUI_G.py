@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from mainclass import *
 from tkinter import *
+from tkinter import ttk
 import tkinter.messagebox,threading
 from tkinter.constants import *
 
@@ -69,6 +70,17 @@ def alert(txt1,txt2):#弹窗函数，第一个参数为窗体名称，第二个�
     button = Button(filewin, text='确认',command=filewin.destroy)
     button.pack(side=BOTTOM)
 
+def useredit():
+    print('暂未启用')
+    
+def userselect(n):
+    userselected=user.get()
+    passwd=a.show(userselected,'password')
+    if passwd != '0':
+        val2.set(passwd)
+    else :
+        val2.set('')  
+
 def reset():#注销并重置所有设置及输入
     logout()
     val1.set('')
@@ -111,6 +123,7 @@ def menu(root):#菜单栏
     
     
     editmenu.add_cascade(label="ChangeType",menu=changtypemenu)
+    editmenu.add_cascade(label="UserEdit",command=useredit)
     editmenu.add_command(label="NetworkCheck",state=DISABLED)
     menubar.add_cascade(label="Edit", menu=editmenu)
     
@@ -371,10 +384,15 @@ label = Label(root, text="titleimg",width=350,height=100,image=img).grid(row=0,c
 Canvas(root,width=350,height=10).grid(row=1,columnspan=6,sticky=W)
  
 val1=StringVar()
-val2=StringVar()   
+val2=StringVar()
+
 Label(root,text='用户名:').grid(row=2,column=0,columnspan=2)
-user=Entry(root,textvariable=val1)
+#user=Entry(root,textvariable=val1)
+userlist=a.listuser()
+user = ttk.Combobox(root, textvariable=val1, values=userlist, width=18)
+user.bind("<<ComboboxSelected>>", userselect)
 user.grid(row=2,column=2,columnspan=4)
+
 Label(root,text='密    码:').grid(row=3,column=0,columnspan=2)
 pwd=Entry(root,textvariable=val2)
 pwd['show']='*'

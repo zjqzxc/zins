@@ -1,3 +1,4 @@
+#encoding:utf-8
 import platform,configparser,os,socket
 
 class userData:
@@ -105,4 +106,7 @@ class userData:
         self.userconfig.write(open(self.filename,"w"))
     def show(self,section,key):
         return self.userconfig.get(section,key)        
+    
+    def listUser(self):
+        return self.userconfig.sections()[1:]
     

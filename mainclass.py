@@ -53,11 +53,12 @@ class Zins:
     
     def update(self,section,key,value):#配置文件更新操作,由userdata.py提供
         return self.userdata.update(section, key, value)
-    
     def show(self,section,key):#配置文件读取,由userdata.py提供
         return self.userdata.show(section, key)
     def checkfile(self):#配置文件完整性检查，由userdata.py提供
         return self.userdata.checkfile()
+    def listuser(self):
+        return self.userdata.listUser()
 
     def usage(self):#还没来及认真写，其实也没啥用
         print('About Zins')
@@ -194,7 +195,7 @@ class Zins:
     def getKeeplive(self, protocol = 'ipv4'):  #获取keeplive脚本的返回值
         #url="http://202.204.105.195:3333/cgi-bin/keeplive"
         url='http://'+self.server+self.keepliveurl
-        print(url)
+        #print(url)
         try:
             response = urllib.request.urlopen( url ,timeout=3)
         except urllib.error.URLError as e:
