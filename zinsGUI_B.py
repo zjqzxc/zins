@@ -14,7 +14,7 @@ def print(str):
 
 __author__ = {'name' : 'Flagplus',
               'Email' : 'zjqzxc@flagplus.net',
-              'Created' : '2015-06-25'}
+              'Created' : '2015-07-01'}
 def donothing():
     filewin = Toplevel()
     button = Button(filewin, text="Do nothing button")
@@ -26,13 +26,13 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（男生版）测试版\n\
-    V 1.0.2 Alpha\n\
+    V 1.11 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 另：男生版讲在后续版本中提供更多稀奇古怪的功能，\n\
 详情课参阅更新日志:)\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
 当然，您也可以邮件告诉我您还想要什么样的功能:)\n\
-编译日期2015-06-25\
+编译日期2015-07-01\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='作者太啰嗦了',command=filewin.destroy)

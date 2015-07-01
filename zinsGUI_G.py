@@ -21,10 +21,10 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（女生版）测试版\n\
-    V 1.0.2 Alpha\n\
+    V 1.11 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
-编译日期2015-06-25\
+编译日期2015-07-01\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='我会记得更新的',command=filewin.destroy)
