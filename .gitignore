@@ -4,3 +4,4 @@ __pycache__
 .settings
 user.dat
 *.pyc
+config.ini
