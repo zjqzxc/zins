@@ -4,16 +4,17 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox,threading
 from tkinter.constants import *
+from time import strftime
 
-def print(str):
-    l4['text']=str
+#def print(str):
+#    l4['text']=str
 
 a=Zins()
 event=threading.Event()
 
 __author__ = {'name' : 'Flagplus',
               'Email' : 'zjqzxc@flagplus.net',
-              'Created' : '2015-06-25'}
+              'Created' : '2015-07-03'}
 def Version():
     filewin = Toplevel()
     tmpcnf = '%dx%d'%(350, 150)
@@ -21,10 +22,10 @@ def Version():
     filewin.title('版本')
     txt='\
 Zins登陆器（女生版）测试版\n\
-    V 1.12 Alpha\n\
+    V 1.13 Alpha\n\
 如果距离编译时间过久，请前往http://zins.flagplue.net查找更新\n\
 有任何问题，请描述问题并截图后发邮件至i@flagplus.net\n\
-编译日期2015-07-01\
+编译日期2015-07-03\
          '
     Label(filewin,text=txt).pack()
     button = Button(filewin, text='我会记得更新的',command=filewin.destroy)
@@ -72,13 +73,32 @@ def alert(txt1,txt2):#弹窗函数，第一个参数为窗体名称，第二个�
 
 def useredit():
     filewin = Toplevel()
-    tmpcnf = '%dx%d'%(350, 300)
+    userlist=a.listuser()
+    #15(头)+35（关闭按钮占位）+25*len(userlist)
+    tmpcnf = '%dx%d'%(425, 50+25*len(userlist))
     filewin.geometry(tmpcnf)
     filewin.title('用户记录')
-    txt='功能未完成'
-    Label(filewin,text=txt).pack()
+    Label(filewin,text='用户名').grid(row=1,column=1)
+    Label(filewin,text='保存密码').grid(row=1,column=2)
+    Label(filewin,text='IPv4登陆次数').grid(row=1,column=3)
+    Label(filewin,text='IPv6登陆次数').grid(row=1,column=4)
+    Label(filewin,text='登录时间').grid(row=1,column=5)
+    r=1
+    for i in userlist:
+        r+=1        
+        Label(filewin,text=i).grid(row=r,column=1)
+        pwd=a.show(i, "password")
+        if pwd=='0':
+            pwd='否'
+        else:
+            pwd="是"
+        Label(filewin,text=pwd).grid(row=r,column=2)
+        Label(filewin,text=a.show(i, "logincount")).grid(row=r,column=3)
+        Label(filewin,text=a.show(i, "logincount6")).grid(row=r,column=4)
+        tmp=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(a.show(i,"logintime"))))
+        Label(filewin,text=tmp).grid(row=r,column=5)
     button = Button(filewin, text='关闭',command=filewin.destroy)
-    button.pack(side=BOTTOM)
+    button.grid(row=r+1,column=3)
     
 def userselect(n):
     userselected=user.get()

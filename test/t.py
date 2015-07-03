@@ -1,5 +1,5 @@
-from array import array
-b='111'
+import time,datetime
+ 
+a=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(1435893370))
 
-txs=str(int(b)/1000)
-print(txs)
+print(a)
