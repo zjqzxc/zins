@@ -6,8 +6,8 @@ import tkinter.messagebox,threading
 from tkinter.constants import *
 from time import strftime
 
-#def print(str):
-#    l4['text']=str
+def print(str):
+    l4['text']=str
 
 a=Zins()
 event=threading.Event()

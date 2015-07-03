@@ -28,7 +28,7 @@ def Usage():
     print("--info          show information")
     
 def Version():
-    print("ZINS v0.91 Alpha Preview for Developers Commandline Only. Suit but not only suit for CUGB")
+    print("ZINS v1.13 Alpha Preview for Developers Commandline Only. Suit but not only suit for CUGB")
 
 def login(user, password=0, type='ipv4'):
     if password=='0':
@@ -82,9 +82,19 @@ def logoutuser(user, password, type4, type6):
         a.force_logout(user, password, 'ipv4')
         a.force_logout(user, password, 'ipv6')
 
+def info():
+    arr=a.getSpeed("ipv4")
+    txs='发送：'+str(arr['txspeed']/1000)+'KB/s'+'\n'
+    rxs='接收：'+str(arr['rxspeed']/1000)+'KB/s'+'\n'
+    timeshow='登陆时间：'+str(arr['time'])+'秒\n'
+    avaliabe='可用流量：'+str(arr['avaliable'])+'(0为不限制)\n'
+    used='已用流量：'+str(int(arr['used'])/1000000)+'MB \n'
+    usershow='当前登陆：'+str(arr['user'])+'\n'
+    conninfo=txs+rxs+timeshow+avaliabe+used+usershow
+    print(conninfo)
 
 try:
-    options,args=getopt.getopt(sys.argv[1:],"hvu:p:r46", ["help","username=","password=","logoutuid","logoutip","logoutuser","version"])
+    options,args=getopt.getopt(sys.argv[1:],"hvu:p:r46", ["help","username=","password=","logoutuid","logoutip","logoutuser","version","info"])
     if not options :
         try:
             user=a.show('system','last')
@@ -135,6 +145,9 @@ for name,value in options:
         function = 'logoutip'
     if name in ("--logoutuser"):
         function = 'logoutuser'
+    if name in ("--info"):
+        function = 'info'
+        info()
     if name in ("-r"):
         if username and password:
             a.update(username, 'password', password)
@@ -160,7 +173,7 @@ if type4:
     login(username,password,'ipv4')
 if type6:
     login(username,password,'ipv6')
-if not type4 and not type6:
+if not type4 and not type6 and not function:
     print('Try login IPv4 and IPv6 .If you only want to login one of them ,please use "-4" or "-6" ')
     login(username,password,'ipv4')
     login(username,password,'ipv6')
